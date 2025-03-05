@@ -1,5 +1,7 @@
 package studio6;
 
+import java.awt.Color;
+
 import edu.princeton.cs.introcs.StdDraw;
 
 public class RecursiveMethods {
@@ -12,9 +14,11 @@ public class RecursiveMethods {
 	 *         ...)
 	 */
 	public static double geometricSum(int n) {
-		
-			// FIXME compute the geometric sum for the first n terms recursively
-			return 0;
+		//compute the geometric sum for the first n terms recursively
+		if (n ==0) {
+			return 0;}
+		else {
+			return  (1/Math.pow(2, n)) + (geometricSum(n-1)); 
 		
 	}
 
@@ -30,6 +34,24 @@ public class RecursiveMethods {
 	 */
 	public static void circlesUponCircles(double xCenter, double yCenter, double radius, double radiusMinimumDrawingThreshold) {
 		
+		if (radius < radiusMinimumDrawingThreshold) {
+			return;  // abandon recursion
+		}
+		else {
+		StdDraw.circle(xCenter,yCenter, radius);
+
+		//
+		//
+		circlesUponCircles(xCenter,yCenter +radius,radius/3,radiusMinimumDrawingThreshold); //lower right
+		circlesUponCircles(xCenter + radius,yCenter,radius/3, radiusMinimumDrawingThreshold); //lower ri
+		circlesUponCircles(xCenter,yCenter - radius ,radius/3, radiusMinimumDrawingThreshold);  //lower left
+		circlesUponCircles(xCenter- radius,yCenter ,radius/3, radiusMinimumDrawingThreshold);  ; //uppper left
+	} 
+		
+		
+		
+		
+		
 		// FIXME complete the recursive drawing
 	}
 	
@@ -42,11 +64,39 @@ public class RecursiveMethods {
 	 */
 	public static int[] toReversed(int[] array) {
 		
-			// FIXME create a helper method that can recursively reverse the given array
+		// FIXME create a helper method that can recursively reverse the given array
+		if (array.length == 0) {
 			return new int[0];
-		
+	}else {
+		 int [] mirrorArray = new int [array.length];
+		for ( int i = 0; i < array.length; i++) {
+		 mirrorArray[i] = toReversed(array[i]); ;
+		}
+	}
 	}
 
+	
+	public static int[] toReversed(int[] array) {
+		int[] reversed = new int[array.length];
+		if (array.length > 0) {
+			int lastIndex = array.length - 1;
+			for (int index = 0; index <= array.length / 2; ++index) {
+				int mirrorIndex = lastIndex - index;
+				// note:
+				// since we read from array and write to reversed
+				// we do not need to use a temp variable
+				reversed[index] = array[mirrorIndex];
+				reversed[mirrorIndex] = array[index];
+			}
+		}
+		return reversed;
+	}
+}
+	
+	
+	
+	
+	
 	/**
 	 * This method uses recursion to compute the greatest common divisor
 	 * for the two input values
